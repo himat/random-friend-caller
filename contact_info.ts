@@ -1,32 +1,14 @@
+import {
+  TimeRange,
+  TZName,
+  TimeRangeWithTZ,
+  DayOfWeek,
+} from "./utils/datetime";
+
 const { DateTime } = require("luxon");
-const { zones } = require("tzdata");
 const fs = require("fs");
 
 const contactAvailabilitiesPath = "./availabilities.json";
-
-export const DaysOfWeek = [
-  "sunday",
-  "monday",
-  "tuesday",
-  "wednesday",
-  "thursday",
-  "friday",
-  "saturday",
-] as const;
-type DayOfWeek = typeof DaysOfWeek[number];
-
-const tzNames = Object.entries(zones)
-  .filter(([_zoneName, v]) => Array.isArray(v))
-  .map(([zoneName, _v]) => zoneName)
-  .filter((tz) => DateTime.local().setZone(tz).isValid);
-export type TZName = typeof tzNames[number];
-
-export type TimeOfDay = string; // Ex. 17:00
-export type TimeRange = [TimeOfDay, TimeOfDay];
-export type TimeRangeWithTZ = {
-  timezone: TZName;
-  timeRange: [TimeOfDay, TimeOfDay];
-};
 
 type AvailabilityRanges = {
   sunday?: TimeRange[];
